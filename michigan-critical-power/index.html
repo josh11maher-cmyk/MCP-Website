@@ -599,11 +599,25 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start bg-gray-900 p-8 md:p-12 rounded-2xl shadow-2xl border border-white/5 reveal delay-100">
+                    <!-- Contact Section -->
+        <section id="contact" class="py-24 sm:py-32 bg-black">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-sm font-bold text-red-500 tracking-widest uppercase mb-2">Get Started</p>
+                    <h2 class="text-4xl font-extrabold text-white sm:text-5xl">Schedule Your <span class="text-red-500">Free Quote</span></h2>
+                    <p class="text-xl text-gray-400 max-w-2xl mx-auto mt-4">
+                        Submit your details, and one of our critical power specialists will contact you soon to discuss your free quote and site survey.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start bg-gray-900 p-8 md:p-12 rounded-2xl shadow-2xl border border-white/5 reveal delay-100">
                     <!-- Contact Form -->
                     <div class="lg:order-1">
                         <h3 class="text-2xl font-bold text-white mb-6">Request a Site Visit & Estimate</h3>
-                        <form name="callback" method="POST" data-netlify="true" class="space-y-6">
-                            <input type="hidden" name="form-name" value="callback">
+                        
+                        <!-- REPLACE THE URL BELOW WITH YOUR UNIQUE FORMSPREE LINK -->
+                        <form action="https://formspree.io/f/meobqowg" method="POST" class="space-y-6">
+                            <input type="hidden" name="_subject" value="New Quote Request from Website">
                             <div>
                                 <label for="full-name" class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
                                 <input type="text" id="full-name" name="name" required class="input-field" placeholder="John Doe">
@@ -717,7 +731,7 @@
             revealOnScroll();
         });
 
-        // Gallery Carousel Logic (Updated for Multiple Brands)
+        // Gallery Carousel Logic
         document.addEventListener('DOMContentLoaded', () => {
             const carousels = document.querySelectorAll('.carousel-card');
             
@@ -760,6 +774,29 @@
                     });
                 }
             });
+        });
+
+        // Michigan Address Validation for Formspree
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // Get the value of the address field and convert to lowercase for easier checking
+            const addressField = this.querySelector('input[name="address"]');
+            const address = addressField.value.toLowerCase();
+            
+            // Check if the address contains "michigan" or "mi" 
+            // We check for " mi " with spaces to avoid matching things like "Miami"
+            // We also check for "mi" at the end of the string, or followed by a comma/period
+            const isMichigan = address.includes('michigan') || 
+                               address.includes(' mi ') || 
+                               address.includes(' mi,') || 
+                               address.includes(' mi.') || 
+                               address.endsWith(' mi');
+        
+            if (!isMichigan) {
+                e.preventDefault(); // Stop the form from submitting
+                alert("We currently only provide service within the state of Michigan. Please ensure your address includes 'MI' or 'Michigan'.");
+                addressField.focus(); // Highlight the address field
+            }
+            // If it IS Michigan, the form submits normally to Formspree
         });
     </script>
 </body>
